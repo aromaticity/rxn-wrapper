@@ -14,3 +14,17 @@ export type PredictReactionOptions = {
     reactants: string;
     aiModel?: string;
 };
+
+export type PredictRetrosynthesisOptions = {
+    product: string;
+    availabilityPricingThreshold?: number;
+    availableSmiles?: string;
+    excludeSmiles?: string;
+    excludeSubstructures?: string;
+    excludeTargetMolecule?: boolean;
+    fap?: number;
+    maxSteps?: number;
+    nbeams?: number;
+    pruningSteps?: number;
+    aiModel?: string;
+}

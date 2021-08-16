@@ -1,4 +1,4 @@
-import RXNWrapper from '../lib/main';
+import RXNWrapper from '../index';
 
 const wrapper = new RXNWrapper({
     apiKey: process.env.APIKEY,
@@ -6,16 +6,16 @@ const wrapper = new RXNWrapper({
 });
 
 async function predict() {
-    const predictionId = await wrapper.predictReaction({
-        reactants: 'BrBr.c1ccc2cc3ccccc3cc2c1'
+    const predictionId = await wrapper.predictRetrosynthesis({
+        product: 'Brc1c2ccccc2c(Br)c2ccccc12'
     });
 
     setTimeout(
         () => {
-            wrapper.getPredictReactionResults(predictionId).then(res => {
+            wrapper.getPredictRetrosynthesisResults(predictionId).then(res => {
                 console.log(res);
             });
-        }, 500
+        }, 5000
     );
 }
 

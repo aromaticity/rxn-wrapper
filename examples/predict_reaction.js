@@ -5,8 +5,18 @@ const wrapper = new RXNWrapper({
     projectId: process.env.PROJECTID
 });
 
-wrapper.predictReaction({
+async function predict() {
+    const predictionId = await wrapper.predictReaction({
         reactants: 'BrBr.c1ccc2cc3ccccc3cc2c1'
-}).then(predictionId => {
-    console.log(predictionId);
-});
+    });
+
+    setTimeout(
+        () => {
+            wrapper.getPredictReactionResults(predictionId).then(res => {
+                console.log(res);
+            });
+        }, 500
+    );
+}
+
+predict();

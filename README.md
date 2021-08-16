@@ -92,3 +92,22 @@ async function predict() {
 predict();
 
 ```
+
+### Retrosynthesis prediction
+
+```javascript
+import RXNWrapper from 'rxn-wrapper';
+
+const wrapper = new RXNWrapper({
+    apiKey: 'your_apikey',
+    projectId: 'project_id'
+});
+
+async function predict() {
+    const predictionId = await wrapper.predictRetrosynthesis({
+        reactants: 'BrBr.c1ccc2cc3ccccc3cc2c1'
+    });
+}
+
+predict();
+```
