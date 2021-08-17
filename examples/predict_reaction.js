@@ -1,4 +1,4 @@
-import RXNWrapper from '../lib/main';
+import RXNWrapper from '../';
 
 const wrapper = new RXNWrapper({
     apiKey: process.env.APIKEY,
@@ -15,7 +15,7 @@ async function predict() {
             wrapper.getPredictReactionResults(predictionId).then(res => {
                 console.log(res);
             });
-        }, 500
+        }, 1000
     );
 }
 

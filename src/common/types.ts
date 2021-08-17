@@ -15,6 +15,11 @@ export type PredictReactionOptions = {
     aiModel?: string;
 };
 
+export type PredictReactionBatchOptions = {
+    reactants: string[];
+    aiModel?: string;
+};
+
 export type PredictRetrosynthesisOptions = {
     product: string;
     availabilityPricingThreshold?: number;
