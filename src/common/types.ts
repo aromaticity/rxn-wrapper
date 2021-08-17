@@ -4,6 +4,12 @@ export type CreateProjectOptions = {
     select?: boolean;
 }
 
+export type GetSynthesisAnalysisReportPdfOptions = {
+    synthesisId: string;
+    nodeId: string;
+    actionIndex: number;
+};
+
 export type RXNWrapperOptions = {
     apiKey: string;
     baseUrl?: string;

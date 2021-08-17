@@ -1,3 +1,5 @@
+import { GetSynthesisAnalysisReportPdfOptions } from './common/types';
+
 class RXNRoutes {
     private apiUrl: string;
     private predictionsUrl: string;
@@ -16,7 +18,9 @@ class RXNRoutes {
     public retrosynthesisPredictionResults: Function;
 
     public synthesisCreationFromSequence: string;
+    public synthesisStart: Function;
     public synthesisStatus: Function;
+    public synthesisSpectrometerReport: Function;
 
     constructor(baseUrl: string) {
         this.apiUrl = new URL('api/api/v1/', baseUrl).href;
@@ -36,7 +40,9 @@ class RXNRoutes {
         this.retrosynthesisPredictionResults = (predictionId: string) => new URL(predictionId, this.retrosynthesisUrl).href;
     
         this.synthesisCreationFromSequence = new URL('create-from-sequence', this.synthesisUrl).href; 
+        this.synthesisStart = (synthesisId: string) => new URL(`${synthesisId}/start`, this.synthesisUrl).href;
         this.synthesisStatus = (synthesisId: string) => new URL(synthesisId, this.synthesisUrl).href;
+        this.synthesisSpectrometerReport = ({ synthesisId, nodeId, actionIndex }: GetSynthesisAnalysisReportPdfOptions) => new URL(`${synthesisId}/node/${nodeId}/action/${actionIndex}/spectrometer-report`, this.synthesisUrl).href;
     }
 }
 

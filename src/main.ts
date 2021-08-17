@@ -1,4 +1,4 @@
-import { CreateProjectOptions, PredictReactionOptions, PredictReactionBatchOptions, PredictRetrosynthesisOptions, RXNWrapperOptions } from './common/types';
+import { CreateProjectOptions, GetSynthesisAnalysisReportPdfOptions, PredictReactionOptions, PredictReactionBatchOptions, PredictRetrosynthesisOptions, RXNWrapperOptions } from './common/types';
 import RXNRoutes from './routes';
 import axios from 'axios';
 import { parseActions } from './common/html-parser';
@@ -180,37 +180,86 @@ class RXNWrapper {
     }
 
     async getSynthesisPlan(synthesisId: string) {
-        const tree = await this.getSynthesisStatus(synthesisId);
+        const tree = (await this.getSynthesisStatus(synthesisId)).payload.sequences[0].tree;
 
-        let orderedTreeNodes: any = this.postOrderTreeTraversal(tree); 
+        let orderedTreeNodes: any = postOrderTreeTraversal(tree); 
 
         let keysToKeep = ['id', 'smiles', 'actions', 'children'];
         
         let flattenedActions: any[] = [];
 
         for (let node in orderedTreeNodes) {
-            // TO DO
+            if (!keysToKeep.includes(node)) delete orderedTreeNodes[node];
+            if (orderedTreeNodes[node] !== undefined) flattenedActions = flattenedActions.concat(orderedTreeNodes[node].actions);
         }
 
         return { tree, orderedTreeNodes, flattenedActions };
     }
 
-    private async getSynthesisStatus(synthesisId: string) {
+    async getSynthesisStatus(synthesisId: string) {
         const res = await axios({
             method: 'GET',
             url: this.routes.synthesisStatus(synthesisId),
         });
 
-        return res.data.payload.sequences[0].tree;
+        return res.data;
     }
 
-    private postOrderTreeTraversal(tree: any) {
+    async getSynthesisActionsWithSpectrometerPdf(synthesisId: string) {
         let result: any[] = [];
 
-        if ('children' in tree) {
-            // TO DO
+        const { tree, orderedTreeNodes, flattenedActions } = await this.getSynthesisPlan(synthesisId);
+
+        for (let node in orderedTreeNodes) {
+            for (let i = 0; i<=orderedTreeNodes[node]['actions'].length; i++) {
+                if (orderedTreeNodes[node]['actions'][i]['hasSpectrometerPdf'] !== undefined) {
+                    result.push({
+                        'synthesis_id': synthesisId,
+                        'node_id': orderedTreeNodes[node]['id'],
+                        'action_index': i
+                    });
+                }
+            }
+        }
+
+        return result;
+    }
+
+    async getSynthesisAnalysisReportPdf(options: GetSynthesisAnalysisReportPdfOptions) {
+        const res = await axios({
+            method: 'GET',
+            url: this.routes.synthesisSpectrometerReport(options),
+            headers: this.headers
+        });
+
+        return res.data;
+    }
+
+    async startSynthesis(synthesisId: string) {
+        const res = await axios({
+            method: 'POST',
+            url: this.routes.synthesisStart(synthesisId),
+            headers: this.headers
+        });
+
+        return {
+            status: res.data.payload.status
+        };
+    }
+}
+
+function postOrderTreeTraversal(tree: any) {
+    let result: any[] = [];
+
+    if ('children' in tree) {
+        for (let child in tree['children']) {
+            result = result.concat(postOrderTreeTraversal(child));
         }
     }
+
+    if (tree) result.push(tree);
+
+    return result;
 }
 
 export default RXNWrapper;
