@@ -4,6 +4,10 @@
   "main": "index.js",
   "author": "Giulio De Matteis <giuliodematteis@icloud.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aromaticity/rxn-wrapper.git"
+  },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
