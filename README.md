@@ -1,5 +1,5 @@
 # rxn-wrapper
-
+[![npm version](https://badge.fury.io/js/rxn-wrapper.svg)](https://badge.fury.io/js/rxn-wrapper)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A JavaScript wrapper to access the API of the IBM RXN for Chemistry [website](https://rxn.res.ibm.com/rxn/).

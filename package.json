@@ -1,6 +1,6 @@
 {
   "name": "rxn-wrapper",
-  "version": "0.0.1",
+  "version": "0.0.1-beta.0",
   "main": "index.js",
   "author": "Giulio De Matteis <giuliodematteis@icloud.com>",
   "license": "MIT",
