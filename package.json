@@ -4,6 +4,11 @@
   "main": "index.js",
   "author": "Giulio De Matteis <giuliodematteis@icloud.com>",
   "license": "MIT",
+  "keywords": [
+    "chemistry",
+    "cheminformatics",
+    "IBM RXN"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/aromaticity/rxn-wrapper.git"
